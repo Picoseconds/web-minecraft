@@ -21,7 +21,7 @@ var PlayerInInventory = class PlayerInInventory {
         this.camera.rotation.order = "YXZ";
         this.camera.position.z = 210;
         this.camera.position.y = 120;
-        $(window).mousemove(function (z) {
+        $(window).on("mousemove", function (z) {
             var bottom, left, right, top, wych_x, wych_y, xoff, yoff;
             xoff = z.pageX - window.innerWidth / 2 + 112;
             yoff = z.pageY - window.innerHeight / 2 + 170;
