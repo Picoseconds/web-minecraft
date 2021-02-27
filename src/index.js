@@ -53,6 +53,9 @@ io.sockets.on("connection", function (socket) {
         cell.load(packet.chunkData, packet.bitMap, true, true);
         socket.emit("mapChunk", cell.sections, packet.x, packet.z);
     });
+    bot._client.on("player_info", function() {
+        socket.emit("updateTabList", bot.players);
+    });
     bot._client.on("respawn", function (packet) {
         socket.emit(
             "dimension",

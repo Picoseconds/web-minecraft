@@ -102,6 +102,13 @@ class EventHandler {
                 _this.game.flying = !_this.game.flying;
                 _this.game.socket.emit("fly", _this.game.flying);
             }
+
+            // Tab list
+            if (z.code === "Tab") {
+                z.preventDefault();
+                _this.game.pl.setOpenState(true);
+            }
+
             //Wysyłanie state'u do serwera
             if (
                 _this.controls[z.code] !== undefined &&
@@ -130,6 +137,12 @@ class EventHandler {
         });
         //Keyup
         $(document).on("keyup", function (z) {
+            // Tab list
+            if (z.code === "Tab") {
+                _this.game.pl.setOpenState(false);
+                z.preventDefault();
+            }
+
             delete _this.keys[z.code];
             if (_this.controls[z.code] !== undefined) {
                 _this.game.socket.emit("move", _this.controls[z.code], false);

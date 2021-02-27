@@ -1,4 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
+@import url("https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css");
 
 body { margin: 0; background:black;}
 #c {
@@ -279,4 +280,31 @@ body { margin: 0; background:black;}
 	bottom:-4px;
 	width:66px;
 	height:66px;
+}
+.player_list {
+  gap: 1px 6%;
+
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+
+  background: #000c;
+}
+.player_list_entry {
+  display: inline-flex;
+  flex-direction: row;
+
+  background: #fff3;
+  color: lightgrey;
+}
+.player_list_entry .mdi-signal-cellular-1 {
+  color: rgb(255, 67, 0);
+}
+.player_list_entry .mdi-signal-cellular-2 {
+  color: rgb(243, 255, 0);
+}
+.player_list_entry .mdi-signal-cellular-3 {
+  color: rgb(0, 255, 33);
 }

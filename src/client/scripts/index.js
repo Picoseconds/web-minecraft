@@ -11,6 +11,7 @@ import { RandomNick } from "./RandomNick.js";
 import { Chat } from "./Chat.js";
 import { Entities } from "./Entities.js";
 import { PlayerInInventory } from "./PlayerInInventory.js";
+import { PlayerList } from "./PlayerList.js";
 import { BlockBreak } from "./BlockBreak.js";
 import { BlockPlace } from "./BlockPlace.js";
 import { DistanceBasedFog } from "./DistanceBasedFog.js";
@@ -86,6 +87,7 @@ class Game {
         document.body.appendChild(this.stats.dom);
         this.headHeight = 17;
         this.pii = new PlayerInInventory(this);
+        this.pl = new PlayerList(this);
         this.bb = new BlockBreak(this);
         this.bp = new BlockPlace(this);
         this.world = new World(this);
@@ -144,6 +146,9 @@ class Game {
         });
         this.socket.on("mapChunk", function (sections, x, z) {
             _this.world.computeSections(sections, x, z);
+        });
+        this.socket.on("updateTabList", function (players) {
+            _this.pl.update(players);
         });
         this.socket.on("game", function (gameData) {
             _this.inv_bar.setGamemode(gameData.gameMode);
