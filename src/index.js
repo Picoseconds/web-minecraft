@@ -6,6 +6,7 @@ var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
 var mineflayer = require("mineflayer");
+var Item = require("prismarine-item")(config.version);
 var Chunk = require("prismarine-chunk")(config.version);
 var vec3 = require("vec3");
 var Convert = require("ansi-to-html");
@@ -48,6 +49,13 @@ io.sockets.on("connection", function (socket) {
         version: config.version,
     });
     botByNick[query.nick] = bot;
+    bot._client.on("transaction", function (packet) {
+        if (packet.action < 0) {
+            return;
+        }
+
+        confirmTransaction(packet);
+    });
     bot._client.on("map_chunk", function (packet) {
         var cell = new Chunk();
         cell.load(packet.chunkData, packet.bitMap, true, true);
@@ -140,6 +148,32 @@ io.sockets.on("connection", function (socket) {
             } else {
                 bot.creative.stopFlying();
             }
+        });
+        socket.on("clickWindow", function (info) {
+            // Mineflayer only allows a button of 0, so we're using node-minecraft-protocol directly here
+            const currWindow = bot.currentWindow || bot.inventory;
+            bot._client.write("window_click", {
+                windowId: currWindow.id,
+                slot: info.slot,
+                mouseButton: info.button,
+                action: (Math.random() * 65535) | 0,
+                mode: info.mode,
+                item:
+                    info.slot === -999
+                        ? null
+                        : Item.toNotch(currWindow.slots[info.slot]),
+            });
+            console.log({
+                windowId: currWindow.id,
+                slot: info.slot,
+                mouseButton: info.button,
+                action: (Math.random() * 65535) | 0,
+                mode: info.mode,
+                item:
+                    info.slot === -999
+                        ? null
+                        : Item.toNotch(currWindow.slots[info.slot]),
+            });
         });
         socket.on("blockPlace", function (pos, vec) {
             var block = bot.blockAt(new vec3(...pos));

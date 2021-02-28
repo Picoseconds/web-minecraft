@@ -6,6 +6,7 @@ import TWEEN from "@tweenjs/tween.js";
 import { World } from "./World/World.js";
 import { gpuInfo } from "./gpuInfo.js";
 import { AssetLoader } from "./AssetLoader.js";
+import { Inventory } from "./Inventory.js";
 import { InventoryBar } from "./InventoryBar.js";
 import { RandomNick } from "./RandomNick.js";
 import { Chat } from "./Chat.js";
@@ -91,6 +92,7 @@ class Game {
         this.world = new World(this);
         this.ent = new Entities(this);
         this.chat = new Chat(this);
+        this.inv = new Inventory(this);
         this.inv_bar = new InventoryBar(this);
         this.eh = new EventHandler(this);
         this.distanceBasedFog.addShaderToMaterial(this.world.material);
@@ -152,6 +154,7 @@ class Game {
             _this.inv_bar.setHp(points);
         });
         this.socket.on("inventory", function (inv) {
+            _this.inv.updateInv(inv);
             _this.inv_bar.updateInv(inv);
         });
         this.socket.on("food", function (points) {
