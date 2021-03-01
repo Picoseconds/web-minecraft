@@ -34,6 +34,7 @@
         "popper.js": "^1.16.1",
         "prismarine-block": "^1.7.3",
         "prismarine-chunk": "^1.22.0",
+        "prismarine-item": "^1.5.0",
         "replace-color": "^2.3.0",
         "rimraf": "^3.0.2",
         "socket.io": "^2.3.0",
